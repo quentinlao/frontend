@@ -1,1 +1,1 @@
-# poc
+# POC fullstack app
