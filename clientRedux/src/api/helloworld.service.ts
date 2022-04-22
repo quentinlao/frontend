@@ -10,6 +10,5 @@ const getHelloWorld = () => {
             return Promise.resolve(response.data as HelloWorldInterface);
         });
 };
-export default {
-    getHelloWorld,
-};
+
+export default { getHelloWorld };
