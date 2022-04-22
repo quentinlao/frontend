@@ -1,0 +1,15 @@
+# gitignore react
+node_modules/
+*~
+build/
+dist/
+.module-cache
+fixtures/dom/public/react-dom.js
+fixtures/dom/public/react.js
+.vscode
+*.env
+
+# Coverage elements
+.nyc_output/
+.coverage/
+
