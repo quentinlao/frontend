@@ -2,7 +2,7 @@ import './HelloWorld.css';
 import logo from '../../assets/react.svg';
 import { HelloWorldInterface } from '../../types';
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
-import { decrement, increment } from '../../api/counter.service';
+import { decrement, increment, incrementByAmount } from '../../api/counter.service';
 
 const HELLO_WORLD_ID = 'helloWorldId';
 const DESCRIPTION_ID = 'descriptionId';
@@ -27,18 +27,15 @@ export const HelloWorld = (props: HelloWorldProps): JSX.Element => {
             <h2>
                 Counter <span>{count}</span>
             </h2>
-            <button
-                aria-label="Increment value"
-                onClick={() => dispatch(increment())}
-            >
+            <button aria-label="Increment value" onClick={() => dispatch(increment())}>
                 Increment
             </button>
             <span>/</span>
-            <button
-                aria-label="Decrement value"
-                onClick={() => dispatch(decrement())}
-            >
+            <button aria-label="Decrement value" onClick={() => dispatch(decrement())}>
                 Decrement
+            </button>
+            <button aria-label="Decrement value" onClick={() => dispatch(incrementByAmount(50))}>
+                +50
             </button>
         </div>
     );
