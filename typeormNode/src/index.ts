@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import * as cors from 'cors';
 import routes from './routes';
 
+// init DataSource
 AppDataSource.initialize()
     .then(async () => {
         // Create a new express application instance
@@ -18,6 +19,7 @@ AppDataSource.initialize()
         app.use(helmet());
         app.use('/', routes);
 
+        // listening server
         app.listen(3000, () => {
             console.log('Server started on port 3000!');
         });

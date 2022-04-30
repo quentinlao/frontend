@@ -1,13 +1,11 @@
 {
-    "name": "typeormNode",
+    "name": "typeorm",
     "version": "0.0.1",
     "description": "TypeORM test",
     "type": "commonjs",
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
         "@types/node": "^16.11.10",
-        "ts-node": "10.7.0",
-        "typescript": "4.5.2",
         "ts-node-dev": "^1.1.8"
     },
     "dependencies": {
@@ -25,7 +23,9 @@
         "jsonwebtoken": "^8.5.1",
         "mysql": "^2.14.1",
         "reflect-metadata": "^0.1.13",
-        "typeorm": "0.3.5"
+        "typeorm": "0.3.5",
+        "typescript": "4.5.2",
+        "ts-node": "10.7.0"
     },
     "scripts": {
         "tsc": "tsc",

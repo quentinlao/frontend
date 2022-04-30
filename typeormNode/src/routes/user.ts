@@ -5,14 +5,15 @@ import { checkRole } from '../middlewares/checkRole';
 
 const router = Router();
 
-// route all users
+// GET public contents
 router.get('/all', UserController.all);
 
-// route admin
-router.get('/admin', [checkJwt, checkRole(['ADMIN'])], UserController.admin);
-
-//Get all users
-router.get('/users', [checkJwt], UserController.listAll);
+// GET all users
+router.get(
+    '/users',
+    [checkJwt, checkRole(['MOD', 'ADMIN', 'USER'])],
+    UserController.listAll
+);
 
 // Get one user
 router.get(
@@ -30,6 +31,8 @@ router.patch(
     [checkJwt, checkRole(['ADMIN'])],
     UserController.editUser
 );
+// GET admin
+router.get('/admin', [checkJwt, checkRole(['ADMIN'])], UserController.admin);
 
 //Delete one user
 router.delete(

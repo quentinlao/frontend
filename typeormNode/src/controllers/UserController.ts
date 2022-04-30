@@ -33,10 +33,6 @@ class UserController {
     static getOneById = async (req: Request, res: Response) => {
         //Get the ID from the url
         const id = req.params.id;
-        console.log(
-            '🚀 ~ file: UserController.ts ~ line 36 ~ UserController ~ getOneById= ~ id',
-            id
-        );
 
         //Get the user from database
         const userRepository = AppDataSource.getRepository(User);
@@ -46,7 +42,7 @@ class UserController {
         } catch (error) {
             res.status(404).send({
                 error: error,
-                message: 'Error user not found',
+                message: 'Error : user not found',
             });
         }
     };
@@ -65,7 +61,7 @@ class UserController {
         if (errors.length > 0) {
             res.status(400).send({
                 errors: errors,
-                message: 'Error user parameters',
+                message: 'Error : user parameters',
             });
             return;
         }
@@ -97,10 +93,13 @@ class UserController {
         const userRepository = AppDataSource.getRepository(User);
         let user;
         try {
-            user = await userRepository.findOneOrFail(id);
+            user = await userRepository.findOneByOrFail({ id });
         } catch (error) {
             //If not found, send a 404 response
-            res.status(404).send('User not found');
+            res.status(400).send({
+                errors: error,
+                message: 'Error : user not found',
+            });
             return;
         }
 
@@ -109,7 +108,10 @@ class UserController {
         user.role = role;
         const errors = await validate(user);
         if (errors.length > 0) {
-            res.status(400).send(errors);
+            res.status(400).send({
+                errors: errors,
+                message: 'Error : Invalid payload email or role',
+            });
             return;
         }
 
@@ -121,7 +123,7 @@ class UserController {
             return;
         }
         //After all send a 204 (no content, but accepted) response
-        res.status(204).send();
+        res.status(204).send(user);
     };
 
     static deleteUser = async (req: Request, res: Response) => {
@@ -131,9 +133,12 @@ class UserController {
         const userRepository = AppDataSource.getRepository(User);
         let user: User;
         try {
-            user = await userRepository.findOneOrFail(id);
+            user = await userRepository.findOneByOrFail({ id });
         } catch (error) {
-            res.status(404).send('User not found');
+            res.status(400).send({
+                errors: error,
+                message: 'Error : user not found',
+            });
             return;
         }
         userRepository.delete(id);
