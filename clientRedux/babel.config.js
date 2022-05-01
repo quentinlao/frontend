@@ -12,5 +12,6 @@ module.exports = {
     plugins: [
         ['@babel/plugin-proposal-class-properties', {}],
         ['istanbul', {}, 'plugin for Cypress instrumentation'],
+        ['@babel/plugin-transform-runtime'],
     ],
 };

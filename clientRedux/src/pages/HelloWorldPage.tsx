@@ -1,41 +1,57 @@
 import { useState, useEffect } from 'react';
 import { HelloWorld } from '../components/HelloWorld/HelloWorld';
 import HelloWorldService from '../api/helloworld.service';
-import { HelloWorldInterface } from '../types';
+import TodoService from '../api/todos.service';
+import { HelloWorldInterface, ITodo } from '../types';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { TodoListView } from '../components/TodoListView/TodoListView';
 
 export const HelloWorldPage = (): JSX.Element => {
     const [getResult, setGetResult] = useState<string | null>(null);
 
     // Access the client
     const queryClient = useQueryClient();
-    // Queries
-    const { isLoading, isError, data, error } = useQuery<HelloWorldInterface, Error>('todos', () =>
-        HelloWorldService.getHelloWorld()
-    );
-    // Mutations
-    const mutation = useMutation((data: { title: string; body: string; userId: number }) =>
-        HelloWorldService.postHelloWorld(data)
-    );
 
-    if (isLoading) {
+    // Queries GET data local
+    const {
+        isLoading: isLoadingHW,
+        isError: isErrorHW,
+        data: dataHW,
+        error: errorHW,
+    } = useQuery<HelloWorldInterface, Error>('helloworld', () => HelloWorldService.getHelloWorld());
+
+    // Queries GET TODOs
+    const {
+        isLoading: isLoadingTodos,
+        isError: isErrorTodos,
+        data: todos,
+        error: errorTodos,
+    } = useQuery<ITodo[], Error>('todos', async () => TodoService.getDatasJsonPlaceholder());
+    // Mutations POST TODO
+    const mutation = useMutation((data: ITodo) => TodoService.postHelloWorld(data));
+
+    if (isLoadingHW || isLoadingTodos) {
         return <span>Loading...</span>;
     }
-    if (isError) {
-        return <span>Error: {error.message}</span>;
+    if (isErrorHW) {
+        return <span>Error: {errorHW.message}</span>;
     }
-
     return (
         <>
             <HelloWorld
                 name="Jean"
-                title={data ? data.title : 'titre'}
-                description={data ? data.description : 'description'}
+                title={dataHW ? dataHW.title : 'titre'}
+                description={dataHW ? dataHW.description : 'description'}
             />
+            <hr />
+            <h2>TODOs JSON placeholder</h2>
             {mutation.isLoading ? (
                 'Loading post...'
             ) : (
                 <>
+                    <h3>List Todos</h3>
+                    <TodoListView todos={todos ? todos : []} />
+                    <h3>POST todo</h3>
                     {mutation.isError ? <div>An error occurred: {mutation.error}</div> : null}
 
                     {mutation.isSuccess ? <div>Todo added!</div> : null}
@@ -47,6 +63,7 @@ export const HelloWorldPage = (): JSX.Element => {
                                 title: 'foo',
                                 body: 'bar',
                                 userId: 1,
+                                id: 1,
                             });
                         }}
                     >
