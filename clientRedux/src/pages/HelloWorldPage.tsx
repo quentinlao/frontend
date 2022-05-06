@@ -1,17 +1,11 @@
-import { useState, useEffect } from 'react';
 import { HelloWorld } from '../components/HelloWorld/HelloWorld';
 import HelloWorldService from '../api/helloworld.service';
 import TodoService from '../api/todos.service';
 import { HelloWorldInterface, ITodo } from '../types';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { TodoListView } from '../components/TodoListView/TodoListView';
 
 export const HelloWorldPage = (): JSX.Element => {
-    const [getResult, setGetResult] = useState<string | null>(null);
-
-    // Access the client
-    const queryClient = useQueryClient();
-
     // Queries GET data local
     const {
         isLoading: isLoadingHW,

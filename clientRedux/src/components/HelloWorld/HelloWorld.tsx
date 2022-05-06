@@ -12,7 +12,6 @@ interface HelloWorldProps extends HelloWorldInterface {
 
 export const HelloWorld = (props: HelloWorldProps): JSX.Element => {
     const count = useAppSelector((state) => state.counter.value);
-    console.log('🚀 ~ file: HelloWorld.tsx ~ line 15 ~ count', count);
     const dispatch = useAppDispatch();
 
     const { name, title, description } = props;
