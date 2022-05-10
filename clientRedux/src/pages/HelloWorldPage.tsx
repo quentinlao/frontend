@@ -4,6 +4,7 @@ import TodoService from '../api/todos.service';
 import { HelloWorldInterface, ITodo } from '../types';
 import { useMutation, useQuery } from 'react-query';
 import { TodoListView } from '../components/TodoListView/TodoListView';
+import { Alert, Button, Typography } from '@mui/material';
 
 export const HelloWorldPage = (): JSX.Element => {
     // Queries GET data local
@@ -38,20 +39,26 @@ export const HelloWorldPage = (): JSX.Element => {
                 description={dataHW ? dataHW.description : 'description'}
             />
             <hr />
-            <h2>TODOs JSON placeholder</h2>
+            <Typography variant="h3" gutterBottom component="div">
+                TODOs JSON placeholder
+            </Typography>
             {mutation.isLoading ? (
                 'Loading post...'
             ) : (
                 <>
-                    <h3>List Todos</h3>
+                    <Typography variant="h4" gutterBottom component="div">
+                        List Todos
+                    </Typography>
                     <TodoListView todos={todos ? todos : []} />
-                    <h3>POST todo</h3>
-                    {mutation.isError ? <div>An error occurred: {mutation.error}</div> : null}
+                    <Typography variant="h4" gutterBottom component="div">
+                        POST todo
+                    </Typography>
+                    {mutation.isError ? <Alert severity="error">An error occurred: {mutation.error}</Alert> : null}
 
-                    {mutation.isSuccess ? <div>Todo added!</div> : null}
-
-                    <button
-                        onClick={(e) => {
+                    {mutation.isSuccess ? <Alert severity="success">Todo added!</Alert> : null}
+                    <Button
+                        variant="contained"
+                        onClick={(e: React.MouseEvent<HTMLElement>) => {
                             e.preventDefault();
                             mutation.mutate({
                                 title: 'foo',
@@ -61,8 +68,8 @@ export const HelloWorldPage = (): JSX.Element => {
                             });
                         }}
                     >
-                        Create Todo
-                    </button>
+                        Create todo
+                    </Button>
                 </>
             )}
         </>
