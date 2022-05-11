@@ -33,7 +33,7 @@ export const HelloWorld = (props: HelloWorldProps): JSX.Element => {
             <button aria-label="Decrement value" onClick={() => dispatch(decrement())}>
                 Decrement
             </button>
-            <button aria-label="Decrement value" onClick={() => dispatch(incrementByAmount(50))}>
+            <button aria-label="Increment 50" onClick={() => dispatch(incrementByAmount(50))}>
                 +50
             </button>
         </div>
